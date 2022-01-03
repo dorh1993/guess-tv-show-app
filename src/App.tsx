@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header'
 import './App.css'
 import Figure from './components/Figure';
 import Word from './components/Word';
 import WrongWord from './components/WrongWord';
-import { fromEvent } from 'rxjs'
-import { filter } from 'rxjs/operators'
-import { showNotification as show, checkWin } from './helpers/helpers';
+import { showNotification as show, statistics } from './helpers/helpers';
 import Popup from './components/Popup';
 import Notification from './components/Notification';
 import Input from './components/Input';
@@ -21,76 +19,60 @@ function App() {
   const [guessedWord, setGuessedWord] = useState<string>('');
   const [wrongWords, setWrongWords] = useState<string[]>([]);
   const [showNotification, setShowNotification] = useState<boolean>(false);
-
-
-useEffect(() => {
-  if(playable && guessedWord) {
-    if(guessedWord === selectedWord) {
-      console.log('won');
-      
-    } else {
-      console.log('lost');
-      if(!wrongWords.includes(guessedWord)) {
-        setWrongWords(currentWords => [...currentWords, guessedWord]);
+  const [notificationType, setNotificationType] = useState<string>('');
+  
+  useEffect(() => {
+    if (playable && guessedWord) {
+      if (guessedWord === selectedWord) {
+          statistics('win')
       } else {
-        show(setShowNotification);
+        if (!wrongWords.includes(guessedWord)) {
+          statistics('lost')
+          setWrongWords(currentWords => [...currentWords, guessedWord]);
+        } else {
+          setNotificationType('repeated')
+          show(setShowNotification);
+        }
       }
     }
+  }, [guessedWord, playable])
+
+
+  function showStatistics(){
+    setNotificationType('statistics')
+    show(setShowNotification);
   }
-}, [guessedWord, playable])
 
-
-  // useEffect(() => {
-  //   if (playable) {
-  //     const subscription =
-  //       fromEvent<KeyboardEvent>(document, 'keydown')
-  //         .pipe(filter(e => e.keyCode >= 65 && e.keyCode <= 90)) // all English Letters
-  //         .subscribe((e) => {
-  //           const letter = e.key.toLowerCase();
-  //           if (selectedWord.includes(letter)) {
-  //             if (!correctLetters.includes(letter)) {
-  //               setCorrectLetters(currentLetters => [...currentLetters, letter]);
-  //             } else {
-  //               show(setShowNotification);
-  //             }
-  //           } else {
-  //             if (!wrongLetters.includes(letter)) {
-  //               setWrongLetters(currentLetters => [...currentLetters, letter]);
-  //             } else {
-  //               show(setShowNotification);
-  //             }
-  //           }
-  //         })
-
-  //     return () => subscription.unsubscribe()
-  //   }
-
-  // }, [correctLetters, wrongLetters, playable])
-
+  function showHint(){
+    statistics('hint')
+  }
 
 
   function playAgain() {
     setPlayable(true);
 
     // Empty Array
+    setGuessedWord('')
     setWrongWords([]);
 
     const random = Math.floor(Math.random() * words.length);
     selectedWord = words[random];
   }
 
-  
+
   return (
     <>
-     <Header />
+      <Header />
+      <button className="button statistics" onClick={showStatistics}>Statistics</button>
+      <button className="button hint" onClick={showHint}>Hint</button>
       <div className="game-container">
-        <Input setGuessedWord={setGuessedWord}/>
         <Figure wrongWords={wrongWords} />
+        <Input setGuessedWord={setGuessedWord} />
+        <Word selectedWord={selectedWord} />
         <WrongWord wrongWords={wrongWords} />
-        <Word selectedWord={selectedWord}/>
       </div>
-      <Popup guessedWord={guessedWord} wrongWords={wrongWords} selectedWord={selectedWord} setPlayable={setPlayable} playAgain={playAgain} />
-      <Notification showNotification={showNotification} />
+      <Popup guessedWord={guessedWord} wrongWords={wrongWords} selectedWord={selectedWord} setPlayable={setPlayable} playAgain={playAgain}/>
+      <Notification showNotification={showNotification} type={notificationType}/>
     </>
   );
 }

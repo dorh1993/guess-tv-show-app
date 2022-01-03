@@ -13,14 +13,15 @@ const Input = ({ setGuessedWord }: Props) => {
     }
 
     return (
-        <div className="container">
+        <div className="input-container">
             <input
                 value={input}
+                type='text'
                 placeholder="Enter Guess.."
                 onChange={event => setInput(event.target.value)}
                 className="input">
             </input>
-            <button onClick={submit}>Check My Guess</button>
+            <button className="button" onClick={submit}>Check My Guess</button>
         </div>
     )
 }
