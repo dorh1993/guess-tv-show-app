@@ -19,7 +19,6 @@
   }
   
   .game-container {
-    padding: 20px 30px;
     position: relative;
     margin: auto;
     height: 350px;
@@ -38,12 +37,10 @@
   }
   
   .wrong-word-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
     display: flex;
     flex-direction: column;
-    text-align: right;
+    margin-top: 20px;
+
   }
   
   .wrong-word-container p {
@@ -56,10 +53,7 @@
   
   .word {
     display: flex;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    
   }
   
   .letter {
@@ -128,3 +122,51 @@
   .notification-container.show {
     transform: translateY(-50px);
   }
+
+  .input-container {
+    display: flex ;
+  }
+
+  .input {
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid white;
+    margin-right: 4px;
+  }
+
+/* CSS */
+.button {
+  background-image: linear-gradient(-180deg, #00D775, #00BD68);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-family: Inter,-apple-system,system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+  height: 34px;
+  padding: 0 20px;
+}
+
+.button:hover {
+  background: #00bd68;
+}
+
+.statistics{
+  background-image: linear-gradient(-180deg, #6c6cc9, #3f4442);
+  position: absolute;
+  bottom: 16px;
+  right: 21px;
+}
+.statistics:hover {
+  background: #6c6cc9;
+}
+
+.hint{
+  background-image: linear-gradient(-180deg, #6c6cc9, #3f4442);
+  position: absolute;
+  bottom: 16px;
+  right: 119px;
+}
+
+.hint:hover {
+  background: #6c6cc9;
+}

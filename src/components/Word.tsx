@@ -1,21 +1,15 @@
-import React from 'react'
-
 interface Props {
     selectedWord: string
 }
 
 const Word = ({ selectedWord }: Props) => {
 
-    function randomBoolean() {
-        return Math.random() < 0.5;
-    }
-
     return (
         <div className="word">
-            {selectedWord.split('').map((letter, i) => {
+            {selectedWord.split('').map((letter, index) => {
                 return (
-                    <span className="letter" key={i}>
-                        {randomBoolean() ? letter : ''}
+                    <span className="letter" key={index}>
+                        {(index % 3) === 0  ? letter : ''}
                     </span>
                 )
             })
