@@ -1,12 +1,12 @@
 import { getStatistics } from '../helpers/helpers';
 
-interface Props {
+export interface NotificationType {
   showNotification: boolean
-  type: string
+  type: 'statistics' | 'repeated'
 }
 
 
-const Notification = ({ showNotification, type }: Props) => {
+const Notification = ({ showNotification, type }: NotificationType) => {
   const statistics = getStatistics()
 
   return (
